@@ -194,7 +194,7 @@ export function buildTrack(
   const splits =
     chunkType === "sentence"
       ? splitSentences(opts.text, { 
-          minLength: opts.minChunkLength ?? 20,
+          minLength: opts.minChunkLength ?? 150,
           maxLength: maxChunkLength 
         })
       : splitParagraphs(opts.text);
