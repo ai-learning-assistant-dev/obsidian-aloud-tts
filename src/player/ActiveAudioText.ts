@@ -189,12 +189,12 @@ export function buildTrack(
   opts: AudioTextOptions,
   chunkType: "sentence" | "paragraph" = "sentence",
 ): AudioText {
-  const maxChunkLength = 300; // 设置最大块长度为300字符
-  
+  // const maxChunkLength = 300; // 设置最大块长度为300字符
+  const maxChunkLength = 100; // 设置最大块长度为300字符
   const splits =
     chunkType === "sentence"
       ? splitSentences(opts.text, { 
-          minLength: opts.minChunkLength ?? 150,
+          minLength: opts.minChunkLength ?? 50,
           maxLength: maxChunkLength 
         })
       : splitParagraphs(opts.text);
