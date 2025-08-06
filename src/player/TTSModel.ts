@@ -61,10 +61,10 @@ export function toModelOptions(
     apiUrl = pluginSettings.OPENAI_API_URL;
   }
   
-  console.log('🔧 toModelOptions调试信息:');
-  console.log('  - modelProvider:', pluginSettings.modelProvider);
-  console.log('  - 使用的API Key:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined/empty');
-  console.log('  - 使用的API URL:', apiUrl);
+  // console.log('🔧 toModelOptions调试信息:');
+  // console.log('  - modelProvider:', pluginSettings.modelProvider);
+  // console.log('  - 使用的API Key:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined/empty');
+  // console.log('  - 使用的API URL:', apiUrl);
   
   return {
     model: pluginSettings.model,
@@ -106,7 +106,6 @@ export const openAITextToSpeech: TTSModel = async function openAITextToSpeech(
     /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu,
     ' '
   );
-  console.log('cleanedText:', cleanedText);
   
   // 构建请求体，支持自定义音色参数
   const requestBody: any = {
