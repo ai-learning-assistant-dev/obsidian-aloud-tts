@@ -4,7 +4,7 @@ import { TTSErrorInfo, TTSModelOptions } from "./TTSModel";
 
 /** manages loading and caching of tracks */
 export class ChunkLoader {
-  private MAX_BACKGROUND_REQUESTS = 3;
+  private MAX_BACKGROUND_REQUESTS = 1;
   private MAX_LOCAL_TTL_MILLIS = 60 * 1000;
 
   private system: AudioSystem;

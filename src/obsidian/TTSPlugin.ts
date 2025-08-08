@@ -16,6 +16,7 @@ import { configurableAudioCache } from "./ObsidianPlayer";
 import { openAITextToSpeech } from "../player/TTSModel";
 // 修改src/obsidian/TTSPlugin.ts
 import { TTSService } from "../types/ttsService";
+import { StreamingPlayer } from "./StreamingPlayer"; // 导入新的流式播放器
 
 // standard lucide.dev icon, but for some reason not working as a ribbon icon without registering it
 // https://lucide.dev/icons/audio-lines
@@ -30,6 +31,8 @@ export default class TTSPlugin extends Plugin {
   system: AudioSystem;
   bridge: ObsidianBridge;
   cache: { destroy: () => void } | undefined;
+
+  private streamingPlayer: StreamingPlayer | null = null; // 使用新的流式播放器
 
   get player(): AudioStore {
     return this.system.audioStore;
@@ -166,6 +169,11 @@ export default class TTSPlugin extends Plugin {
   onunload() {
     this.player?.destroy(); // player clears the audio
     this.bridge?.destroy();
+    // 销毁流式播放器
+    if (this.streamingPlayer) {
+      this.streamingPlayer.destroy();
+      this.streamingPlayer = null;
+    }
   }
 
   async loadSettings() {
@@ -190,6 +198,9 @@ export default class TTSPlugin extends Plugin {
       }),
     });
     this.bridge = new ObsidianBridgeImpl(this.app, this.player, this.settings);
+
+    // 初始化流式播放器
+    this.streamingPlayer = new StreamingPlayer(this.bridge, this.player, this.system);
   }
 
   public readonly ttsService: TTSService = {
@@ -204,6 +215,20 @@ export default class TTSPlugin extends Plugin {
     
     isAvailable: () => {
       return !!this.system && !!this.bridge;
-    }
+    },
+
+    // 实现流式文本处理方法
+    playStreamText: async (chunk: { index: number; length: number; text: string }) => {
+      try {
+        // 直接委托给流式播放器处理
+        if (this.streamingPlayer) {
+          this.streamingPlayer.addTextChunk(chunk);
+        }
+      } catch (e) {
+        console.error("[TTSPlugin] TTS流式播放失败", e);
+        throw e;
+      }
+    },
+    
   };
 }
