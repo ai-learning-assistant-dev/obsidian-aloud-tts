@@ -44,12 +44,14 @@ function* genParagraphs(text: string): Iterable<string> {
 
 export function splitSentences(
   text: string,
-  { minLength = 8, maxLength = 300 }: { minLength?: number; maxLength?: number } = {},
+  { minLength = 20, maxLength = 300 }: { minLength?: number; maxLength?: number } = {},
 ): string[] {
   // 改进的文本分割函数，支持中英文混合文本
   let remaining = text;
   const sentences: string[] = [];
   
+  console.log("minLength:", minLength, "maxLength:", maxLength);
+
   while (remaining.length > 0) {
     let buff = "";
     let foundBreak = false;

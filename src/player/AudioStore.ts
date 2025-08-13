@@ -128,7 +128,13 @@ class AudioStoreImpl implements AudioStore {
 
   async startPlayer(opts: AudioTextOptions): Promise<ActiveAudioText> {
     await this.system.audioSink.clearMedia();
-    const audio: AudioText = buildTrack(opts, this.system.settings.chunkType);
+    // 添加来自设置的参数
+    const extendedOpts: AudioTextOptions = {
+      ...opts,
+      minChunkLength: opts.minChunkLength ?? this.system.settings.minChunkLength,
+      maxChunkLength: opts.maxChunkLength ?? this.system.settings.maxChunkLength
+    };
+    const audio: AudioText = buildTrack(extendedOpts, this.system.settings.chunkType);
     this.activeText?.destroy();
     mobx.runInAction(
       () => (this.activeText = new ActiveAudioTextImpl(audio, this.system)),

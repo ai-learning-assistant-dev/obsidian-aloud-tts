@@ -32,6 +32,9 @@ export type TTSPluginSettings = {
   audioFolder: string;
   // 新增：自定义音色列表
   customVoices: CustomVoice[];
+  // 新增：文本分割参数
+  minChunkLength: number;
+  maxChunkLength: number;
 } & OpenAIModelConfig &
   OpenAICompatibleModelConfig;
 
@@ -78,9 +81,9 @@ export type ModelProvider = (typeof modelProviders)[number];
 
 export const DEFAULT_SETTINGS: TTSPluginSettings = {
   OPENAI_API_KEY: "",
-  OPENAI_API_URL: "",
-  modelProvider: "openai",
-  model: "gpt-4o-mini-tts",
+  OPENAI_API_URL: "http://localhost:8000",
+  modelProvider: "openaicompat",
+  model: "kokoro",
   ttsVoice: "shimmer",
   instructions: undefined,
   chunkType: "sentence",
@@ -102,6 +105,9 @@ export const DEFAULT_SETTINGS: TTSPluginSettings = {
   audioFolder: "aloud",
   // 新增：自定义音色列表
   customVoices: [],
+  // 新增：文本分割参数默认值
+  minChunkLength: 150,
+  maxChunkLength: 300,
 } as const;
 
 export const MARKETING_NAME = "Aloud";

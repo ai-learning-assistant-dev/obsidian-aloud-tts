@@ -92,6 +92,8 @@ const TTSSettingsTabComponent: React.FC<{
       <h1>Storage</h1>
       <CacheDuration store={store} player={player} />
       <AudioFolderComponent store={store} />
+      <h1>Text Chunking</h1>
+      <TextChunkSettings store={store} />
     </>
   );
 });
@@ -381,6 +383,81 @@ const AudioFolderComponent: React.FC<{
         <input type="text" value={state.raw} onChange={onChange} />
       </div>
     </div>
+  );
+});
+
+// 新增：文本分割参数设置组件
+const TextChunkSettings: React.FC<{
+  store: TTSPluginSettingsStore;
+}> = observer(({ store }) => {
+  const onMinLengthChange: React.ChangeEventHandler<HTMLInputElement> = 
+    React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+      // 调整为5的倍数
+      const value = Math.round(parseInt(e.target.value) / 5) * 5 || 20;
+      store.updateSettings({ minChunkLength: Math.max(20, Math.min(value, 300)) });
+    }, [store]);
+
+  const onMaxLengthChange: React.ChangeEventHandler<HTMLInputElement> = 
+    React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+      // 调整为5的倍数
+      const value = Math.round(parseInt(e.target.value) / 5) * 5 || 300;
+      store.updateSettings({ maxChunkLength: Math.max(50, Math.min(value, 1000)) });
+    }, [store]);
+
+  return (
+    <>
+      <div className="setting-item">
+        <div className="setting-item-info">
+          <div className="setting-item-name">Minimum Chunk Length</div>
+          <div className="setting-item-description">
+            Minimum length of text chunks in characters (20-300, default: 150)
+          </div>
+        </div>
+        <div className="setting-item-control">
+          <div className="tts-slider-container" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+            <input
+              type="range"
+              min="20"
+              max="300"
+              step="5"
+              value={store.settings.minChunkLength}
+              onChange={onMinLengthChange}
+              className="tts-slider"
+              style={{ flex: "1", minWidth: "200px" }}
+            />
+            <span className="tts-slider-value" style={{ width: "45px", textAlign: "right", fontFamily: "monospace" }}>
+              {store.settings.minChunkLength} chars
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="setting-item">
+        <div className="setting-item-info">
+          <div className="setting-item-name">Maximum Chunk Length</div>
+          <div className="setting-item-description">
+            Maximum length of text chunks in characters (50-1000, default: 300)
+          </div>
+        </div>
+        <div className="setting-item-control">
+          <div className="tts-slider-container" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+            <input
+              type="range"
+              min="50"
+              max="1000"
+              step="5"
+              value={store.settings.maxChunkLength}
+              onChange={onMaxLengthChange}
+              className="tts-slider"
+              style={{ flex: "1", minWidth: "200px" }}
+            />
+            <span className="tts-slider-value" style={{ width: "50px", textAlign: "right", fontFamily: "monospace" }}>
+              {store.settings.maxChunkLength} chars
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
   );
 });
 
