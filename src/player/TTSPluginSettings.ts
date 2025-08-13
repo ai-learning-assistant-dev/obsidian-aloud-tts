@@ -32,6 +32,9 @@ export type TTSPluginSettings = {
   audioFolder: string;
   // 新增：自定义音色列表
   customVoices: CustomVoice[];
+  // 新增：文本分割参数
+  minChunkLength: number;
+  maxChunkLength: number;
 } & OpenAIModelConfig &
   OpenAICompatibleModelConfig;
 
@@ -102,6 +105,9 @@ export const DEFAULT_SETTINGS: TTSPluginSettings = {
   audioFolder: "aloud",
   // 新增：自定义音色列表
   customVoices: [],
+  // 新增：文本分割参数默认值
+  minChunkLength: 150,
+  maxChunkLength: 300,
 } as const;
 
 export const MARKETING_NAME = "Aloud";

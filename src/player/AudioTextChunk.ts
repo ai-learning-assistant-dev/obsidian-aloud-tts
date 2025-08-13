@@ -14,6 +14,8 @@ export interface AudioTextOptions {
   end: number;
   // minimum chunk length before merging with the next (e.g. short sentences are added to the next sentence)
   minChunkLength?: number;
+  // 新增：最大块长度参数
+  maxChunkLength?: number;
 }
 
 /** Container for lazily loaded TTS that's text has been chunked for faster streaming of output and seeking of position by chunk */
