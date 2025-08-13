@@ -2,7 +2,7 @@ import { AudioStore } from "../player/AudioStore";
 import { AudioSystem } from "../player/AudioSystem";
 import { ObsidianBridge, ObsidianBridgeImpl } from "./ObsidianBridge";
 import { ActiveAudioText, ActiveAudioTextImpl } from "../player/ActiveAudioText";
-import { AudioTextChunk, AudioTextOptions, AudioText } from "../player/AudioTextChunk";
+import { AudioTextChunk, AudioText } from "../player/AudioTextChunk";
 import * as mobx from "mobx";
 import { randomId, } from "../util/misc";
 import { observable } from "mobx";
@@ -184,7 +184,7 @@ function buildTrack(
   sentence : string,
 ): AudioText {
 
-  let start = 0;
+  const start = 0;
   const chunks = [];
   const end = start + sentence.length;
   const chunk: AudioTextChunk = new AudioTextChunk({
